@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { loginUser } from "@/lib/appwrite";
+import { loginUser, getUserProfile, getCurrentUser } from "@/lib/appwrite";
 import { ShieldCheck, Mail, Lock, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -20,7 +20,20 @@ export default function LoginPage() {
 
     try {
       await loginUser(formData.email, formData.password);
-      router.push("/dashboard");
+      
+      // Determine if they need to complete their profile
+      const currentUser: any = await getCurrentUser();
+      if (currentUser) {
+          const profile = await getUserProfile(currentUser.$id);
+          if (profile) {
+              router.push("/dashboard");
+          } else {
+              router.push("/profile");
+          }
+      } else {
+          router.push("/dashboard"); // Fallback
+      }
+      
     } catch (err: any) {
       setError(err.message || "Invalid email or password.");
     } finally {

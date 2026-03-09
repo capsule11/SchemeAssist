@@ -19,13 +19,15 @@ export default function DashboardLayout({
       try {
         const user = await getCurrentUser();
         if (!user) {
-          router.push("/login");
+          router.push("/Login");
+        } else if (!user.emailVerification) {
+          router.push("/verify");
         } else {
           setLoading(false);
         }
       } catch (error) {
         console.error("Auth check failed", error);
-        router.push("/login");
+        router.push("/Login");
       }
     };
 

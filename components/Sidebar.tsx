@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShieldCheck, LayoutDashboard, List, UserCircle, LogOut } from "lucide-react";
+import { ShieldCheck, LayoutDashboard, List, UserCircle, LogOut, Bot } from "lucide-react";
 import { useState } from "react";
 import { logoutUser } from "@/lib/appwrite";
 import { useRouter } from "next/navigation";
@@ -14,6 +14,8 @@ export function Sidebar() {
 
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { name: "AI Recommendations", href: "/dashboard/ai-matches", icon: ShieldCheck },
+    { name: "AI Chatbot", href: "/dashboard/chat", icon: Bot },
     { name: "All Schemes", href: "/dashboard/schemes", icon: List },
     { name: "My Profile", href: "/profile", icon: UserCircle },
   ];
