@@ -67,6 +67,28 @@ export const logoutUser = async () => {
     }
 };
 
+export const sendVerificationEmail = async () => {
+    try {
+        // Appwrite requires the redirect URL back to our app.
+        // E.g., http://localhost:3000/verify
+        // It appends ?userId=...&secret=... to the URL automatically.
+        const url = typeof window !== 'undefined' ? `${window.location.origin}/verify` : 'http://localhost:3000/verify';
+        return await account.createVerification(url);
+    } catch (error) {
+        console.error("Error sending verification email", error);
+        throw error;
+    }
+};
+
+export const confirmVerification = async (userId: string, secret: string) => {
+    try {
+        return await account.updateVerification(userId, secret);
+    } catch (error) {
+        console.error("Error confirming verification", error);
+        throw error;
+    }
+};
+
 
 // --- Database Functions ---
 

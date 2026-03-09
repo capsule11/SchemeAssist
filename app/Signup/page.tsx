@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signupUser } from "@/lib/appwrite";
+import { signupUser, sendVerificationEmail } from "@/lib/appwrite";
 import { ShieldCheck, Mail, Lock, User, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -20,7 +20,8 @@ export default function SignupPage() {
 
     try {
       await signupUser(formData.email, formData.password, formData.name);
-      router.push("/dashboard");
+      await sendVerificationEmail();
+      router.push("/verify");
     } catch (err: any) {
       setError(err.message || "Failed to create account. Please try again.");
     } finally {
